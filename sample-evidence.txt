@@ -1,0 +1,4 @@
+EvidenceGuard Sample Evidence
+Test Version 1
+This file is used to test SHA-256 integrity verification.
+TAMPER TEST
