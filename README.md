@@ -1,222 +1,150 @@
-\# EvidenceGuard
 
+# EvidenceGuard
 
+## Digital Evidence Integrity & Chain-of-Custody Manager
 
-\## Digital Evidence Integrity \& Chain-of-Custody Manager
+EvidenceGuard is a Java command-line application developed as an educational project to manage digital evidence records, verify file integrity using SHA-256 hashing, and maintain a hash-linked chain of custody events.
 
+## Features
 
+- Register digital evidence with a unique evidence ID.
+- Calculate and store SHA-256 file hashes.
+- View registered evidence records.
+- Verify whether evidence files have changed.
+- Record custody events with handler, timestamp, and action.
+- View custody history.
+- Verify the consistency of the custody log's hash chain.
+- Store records locally so they persist between program runs.
 
-EvidenceGuard is a Java command-line application designed to help manage digital evidence records, verify file integrity using SHA-256 hashing, and maintain a hash-linked chain of custody events.
+## Technologies Used
 
+- Java 21
+- Java Standard Library
+- SHA-256 hashing
+- File-based local storage
+- Command-line interface
+- Base64 encoding for text fields
 
-
-\## Features
-
-
-
-\* Register digital evidence with a unique evidence ID.
-
-\* Calculate and store SHA-256 file hashes.
-
-\* View registered evidence records.
-
-\* Verify whether evidence files have changed.
-
-\* Record custody events with handler, timestamp, and action.
-
-\* View custody history for an evidence item.
-
-\* Verify the consistency of the custody log's hash chain.
-
-\* Store records locally so they persist between program runs.
-
-
-
-\## Technologies Used
-
-
-
-\* Java 21
-
-\* Java Standard Library
-
-\* SHA-256 hashing
-
-\* File-based storage
-
-\* Command-line interface
-
-
-
-\## Project Structure
-
-
+## Project Structure
 
 ```text
-
 EvidenceGuard/
-
 ├── src/
-
 │   ├── AuditLog.java
-
 │   ├── CustodyEvent.java
-
 │   ├── Evidence.java
-
 │   ├── EvidenceManager.java
-
 │   ├── HashUtils.java
-
 │   ├── Main.java
-
 │   └── StorageManager.java
-
 ├── data/
-
+│   ├── evidence.txt
+│   └── custody.txt
 ├── out/
-
 ├── sample-evidence.txt
-
 ├── README.md
-
-└── statement.md
-
+├── statement.md
+└── EvidenceGuard_Report.docx
 ```
 
+## Requirements
 
+- Java Development Kit (JDK) 21 or a compatible version
+- Command Prompt or terminal
 
-\## Requirements
-
-
-
-\* Java Development Kit (JDK) 21 or compatible version
-
-\* Windows, macOS, or Linux terminal
-
-
-
-\## How to Compile
-
-
-
-From the project root, run:
-
-
+Check your Java installation:
 
 ```bash
-
-javac -d out src/\*.java
-
+java -version
+javac -version
 ```
 
+## How to Compile
 
+Open a terminal in the EvidenceGuard project root directory.
 
-On Windows Command Prompt, this command also works:
+For Windows Command Prompt, run:
 
-
-
-```cmd
-
-javac -d out src\\\*.java
-
+```bat
+javac -d out src\*.java
 ```
 
+## How to Run
 
-
-\## How to Run
-
-
+After compiling, run:
 
 ```bash
-
 java -cp out Main
-
 ```
 
+## Main Menu
 
+The application provides the following options:
 
-\## Main Menu
+0. Exit
+1. Register Evidence
+2. View All Evidence
+3. Verify Evidence Integrity
+4. Record Custody Event
+5. View Custody History
+6. Verify Custody Log
 
+## Integrity Verification
 
+When evidence is registered, EvidenceGuard calculates its SHA-256 hash and stores it with the evidence record.
 
-1\. Register Evidence
+During verification, the application recalculates the file's hash and compares it with the registered hash. A matching hash indicates that the file contents match the registered version. A mismatch indicates that the contents have changed.
 
-2\. View All Evidence
+## Chain of Custody
 
-3\. Verify Evidence Integrity
+Custody events contain an evidence ID, timestamp, handler, action, previous-event hash, and event hash.
 
-4\. Record Custody Event
+The application links custody events using hashes and provides a function to check the consistency of the stored hash chain.
 
-5\. View Custody History
+## Storage
 
-6\. Verify Custody Log
+EvidenceGuard stores its records locally in the `data` directory:
 
-7\. Exit
+- `evidence.txt` — stores registered evidence records.
+- `custody.txt` — stores custody-event records.
 
+Text fields are Base64-encoded to support delimiter-safe storage. Base64 is an encoding method, not encryption.
 
+## Testing
 
-\## Integrity Verification
+The application was manually tested using a sample evidence file.
 
+- Registered a sample evidence file and confirmed that an evidence ID was generated.
+- Verified that an unchanged file produced an integrity match.
+- Modified the sample file and confirmed that an integrity mismatch was detected.
+- Recorded and viewed a custody event.
+- Verified that the custody hash chain was consistent.
+- Restarted the application and confirmed that saved records remained available.
 
+## Limitations
 
-When evidence is registered, EvidenceGuard calculates its SHA-256 hash. During verification, it recalculates the hash and compares it with the stored value. A mismatch indicates that the file contents have changed since registration.
+- This is a local command-line prototype, not a certified forensic evidence platform.
+- The custody log is stored locally and is not protected against a privileged user who can modify the files.
+- Hash-chain consistency does not independently prove that recorded events are authentic.
+- The current design uses one hash chain for custody events rather than separate chains for each evidence item.
+- Evidence files are referenced by path; the application does not copy them into secure storage.
+- The application does not provide user authentication, digital signatures, or protected key management.
 
+## Future Enhancements
 
+- Add user authentication and role-based access.
+- Add digitally signed custody events.
+- Use a tamper-resistant database or secure remote storage.
+- Add evidence export and report generation.
+- Support multiple independent custody chains.
+- Add automated tests and a graphical user interface.
 
-\## Chain of Custody
+## Author
 
+**N. Shirisha**  
+B.Tech — Cybersecurity and Digital Forensics  
+VIT Bhopal University
 
-
-Custody events include an evidence ID, timestamp, handler, action, previous hash, and event hash. The application links events using hashes and provides a function to check the consistency of the stored chain.
-
-
-
-\## Limitations
-
-
-
-\* This is a local command-line prototype, not a certified forensic evidence platform.
-
-\* The custody log is stored locally and is not protected against a privileged user who can modify the files.
-
-\* Hash-chain consistency does not independently prove that recorded events are authentic.
-
-\* The current design uses one hash chain for custody events rather than separate chains for each evidence item.
-
-\* Evidence files are referenced by path; the application does not copy them into secure storage.
-
-
-
-\## Future Enhancements
-
-
-
-\* Add user authentication and role-based access.
-
-\* Add digitally signed custody events.
-
-\* Use a tamper-resistant database or secure remote storage.
-
-\* Add evidence export and report generation.
-
-\* Support multiple independent custody chains.
-
-
-
-\## Author
-
-
-
-N. Shirisha
-
-
-
-\## Academic Project
-
-
+## Academic Project
 
 Java Course Project — EvidenceGuard
-
-
-
