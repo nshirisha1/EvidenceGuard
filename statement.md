@@ -76,5 +76,8 @@ This project is an educational prototype. It does not provide secure authenticat
 
 A runnable Java CLI application demonstrating evidence registration, file-integrity checking, persistent records, and custody-log verification.
 
+## Target Users
+
+Students and learners studying cybersecurity and digital forensics who want to demonstrate basic digital-evidence integrity checking and chain-of-custody recordkeeping.
 
 
